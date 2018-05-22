@@ -1,0 +1,1 @@
+﻿[bool](get-process -Name '7zFM' -ErrorAction SilentlyContinue)

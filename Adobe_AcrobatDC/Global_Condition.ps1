@@ -1,0 +1,1 @@
+﻿[bool](get-process -Name 'acrobat' -ErrorAction SilentlyContinue)

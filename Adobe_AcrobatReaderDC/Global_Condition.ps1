@@ -1,0 +1,1 @@
+﻿[bool](get-process -Name 'acrord32' -ErrorAction SilentlyContinue)

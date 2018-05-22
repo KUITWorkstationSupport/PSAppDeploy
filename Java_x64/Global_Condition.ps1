@@ -1,0 +1,1 @@
+﻿[bool](get-process -Name 'jp2launcher' -ErrorAction SilentlyContinue)
