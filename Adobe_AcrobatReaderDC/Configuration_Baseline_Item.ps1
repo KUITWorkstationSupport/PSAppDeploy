@@ -1,14 +1,10 @@
 ﻿#v1.0 by Calvin Schulte 03/2018.
-
-#What it does: Search the Uninstall registry hive for a specified application, then compare the version to a specified version and report compliance or non-compliance based on a comparison.
-
-#Why not use a WMI query for win32_product? Querying win32_product triggers MSI validation and repair on all registered MSI applications.
-#Why not use a WMI query for SCCM's win32reg_addremoveprograms? Not all programs that are installed reliably end up in there.
+#v1.1 by Calvin Schulte 05/2018. We are now including the old school "Adobe Reader" in this as well because the updater for Reader DC will natively uninstall it, which is a goal.
 
 #-------------Edit Here-------------#
 $appName = "Adobe Acrobat Reader DC*"
-#$appName = "Adobe *Reader*"
-$minVersion = "18.011.20040"            #Minimum version to be compliant.
+$appNameAlt = "Adobe Reader*"
+$minVersion = "18.011.20040"
 #-------------Edit Here-------------#
 
 #Set the hive search variable for either 32 bit or 64 bit Uninstall. If 64 bit, set the search path to BOTH Uninstall hives.
@@ -19,7 +15,7 @@ switch((Get-WmiObject Win32_OperatingSystem).OSArchitecture)
     }
 
 #Search the uninstall registry hive for the app name and app version
-$installedVersion = Get-ItemProperty $hivePath | Where-Object {$_.DisplayName -Like $appName} | Select-Object DisplayVersion
+$installedVersion = Get-ItemProperty $hivePath | Where-Object {$_.DisplayName -Like $appName -or $_.DisplayName -Like $appNameAlt} | Select-Object DisplayVersion
 
 if ([version]$installedVersion.DisplayVersion -ge [version]$minVersion -or $installedVersion -eq $null)
     {
